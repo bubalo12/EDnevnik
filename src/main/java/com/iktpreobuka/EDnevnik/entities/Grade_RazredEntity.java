@@ -1,14 +1,22 @@
 package com.iktpreobuka.EDnevnik.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table (name = "Razred")
@@ -18,6 +26,10 @@ public class Grade_RazredEntity {
 	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	
+	@JsonBackReference
+	@OneToMany(mappedBy = "gradeRazredEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<StudentEntity> students = new ArrayList<>();
 
 	@Column(name = "Class", nullable = false)
 	@NotNull(message = "Class number must be provided.")

@@ -1,14 +1,21 @@
 package com.iktpreobuka.EDnevnik.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -31,6 +38,22 @@ public class UserEntity {
 	private String password;
 	
 	private EUserRole role;
+	
+	@JsonBackReference
+	@OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<StudentEntity> students = new ArrayList<>();
+	
+	@JsonBackReference
+	@OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<TeacherEntity> teachers = new ArrayList<>();
+	
+	@JsonBackReference
+	@OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<ParentEntity> parents = new ArrayList<>();
+	
+	@JsonBackReference
+	@OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<AdminEntity> admins = new ArrayList<>();
 
 	public Integer getId() {
 		return id;
