@@ -29,29 +29,29 @@ public class AdminEntity {
 	private Integer adminId;
 	
 	@Column(name = "username", nullable = false, unique = true)
-	//@NotBlank(message = "Username must be provided.")
-	//@Size(min = 5, max = 20, message = "Username must be between {min} and {max} characters long.")
+	@NotBlank(message = "Username must be provided.")
+	@Size(min = 5, max = 20, message = "Username must be between {min} and {max} characters long.")
 	private String username;
 	
 	@JsonIgnore
 	@Column(name = "password", nullable = false)
-	//@NotBlank(message = "Password must be provided.")
-	//@Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters long.")
+	@NotBlank(message = "Password must be provided.")
+	@Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters long.")
 	private String password;
 	
 	@Column(nullable = false)
-	//@NotBlank(message = "First name must be provided.")
-	//@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
+	@NotBlank(message = "First name must be provided.")
+	@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
 	private String firstName;
 	
 	@Column(nullable = false)
-	//@NotBlank(message = "Last name must be provided.")
-	//@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
+	@NotBlank(message = "Last name must be provided.")
+	@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
 	private String lastName;
 	
 	@Column(nullable = false, unique = true)
-	//@NotNull(message = "Email must be provided.")
-	//@Email(message = "Email is not valid.")
+	@NotNull(message = "Email must be provided.")
+	@Email(message = "Email is not valid.")
 	private String email;
 	
 	private EUserRole role;
