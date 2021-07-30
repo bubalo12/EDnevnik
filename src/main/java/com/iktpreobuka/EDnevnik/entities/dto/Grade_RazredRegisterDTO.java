@@ -16,7 +16,7 @@ public class Grade_RazredRegisterDTO {
 	@NotNull(message = "Department number must be provided.")
 	@Min(value = 1, message = "Department number must be greater than {value}.")
 	@Max(value = 3, message = "Department number must be less than {value}.")
-	private Integer deparmentNo;
+	private Integer departmentNo;
 
 	public Grade_RazredRegisterDTO() {
 		super();
@@ -30,12 +30,14 @@ public class Grade_RazredRegisterDTO {
 		this.classNo = classNo;
 	}
 
-	public Integer getDeparmentNo() {
-		return deparmentNo;
+	public Integer getDepartmentNo() {
+		return departmentNo;
 	}
 
-	public void setDeparmentNo(Integer deparmentNo) {
-		this.deparmentNo = deparmentNo;
+	public void setDepartmentNo(Integer departmentNo) {
+		this.departmentNo = departmentNo;
 	}
+
+	
 
 }

@@ -7,13 +7,11 @@ public class SubjectRegisterDTO {
 
 	
 	@NotBlank(message = "Name must be provided.")
-	@Size(min = 5, max = 25, message = "Username must be between {min} and {max} characters long.")
+	@Size(min = 5, max = 25, message = "Subject name must be between {min} and {max} characters long.")
 	private String name;
 
-	public SubjectRegisterDTO(
-			@NotBlank(message = "Name must be provided.") @Size(min = 5, max = 25, message = "Username must be between {min} and {max} characters long.") String name) {
+	public SubjectRegisterDTO() {
 		super();
-		this.name = name;
 	}
 
 	public String getName() {

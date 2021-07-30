@@ -41,7 +41,7 @@ public class Grade_RazredEntity {
 	@NotNull(message = "Department number must be provided.")
 	@Min(value = 1, message = "Department number must be greater than {value}.")
 	@Max(value = 3, message = "Department number must be less than {value}.")
-	private Integer deparmentNo;
+	private Integer departmentNo;
 
 	public Integer getId() {
 		return id;
@@ -59,21 +59,15 @@ public class Grade_RazredEntity {
 		this.classNo = classNo;
 	}
 
-	public Integer getDeparmentNo() {
-		return deparmentNo;
+	
+
+
+	public Integer getDepartmentNo() {
+		return departmentNo;
 	}
 
-	public void setDeparmentNo(Integer deparmentNo) {
-		this.deparmentNo = deparmentNo;
-	}
-
-	public Grade_RazredEntity(Integer id,
-			@NotNull(message = "Class number must be provided.") @Min(value = 1, message = "Class number must be greater than {value}.") @Max(value = 8, message = "Class number must be less than {value}.") Integer classNo,
-			@NotNull(message = "Department number must be provided.") @Min(value = 1, message = "Department number must be greater than {value}.") @Max(value = 3, message = "Department number must be less than {value}.") Integer deparmentNo) {
-		super();
-		this.id = id;
-		this.classNo = classNo;
-		this.deparmentNo = deparmentNo;
+	public void setDepartmentNo(Integer departmentNo) {
+		this.departmentNo = departmentNo;
 	}
 
 	public Grade_RazredEntity () {

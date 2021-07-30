@@ -1,6 +1,7 @@
 package com.iktpreobuka.EDnevnik.entities.dto;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -18,6 +19,10 @@ public class StudentRegisterDTO {
 	@Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters long.")
     private String password;
 	
+	@NotBlank(message = "Confirm Password must be provided.")
+	@Size(min = 5, max = 20, message = "Confirm Password must be between {min} and {max} characters long.")
+    private String confirmPassword;
+	
 	@NotBlank(message = "First name must be provided.")
 	@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
 	private String firstName;
@@ -26,9 +31,9 @@ public class StudentRegisterDTO {
 	@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
 	private String lastName;
 	
-	@NotNull(message = "JMBG must be provided.")
-	@Pattern(regexp = "^\\d{13}$", message = "JMBG must contains 13 characters.")
-	private String jmbg;
+	@NotNull(message = "Email must be provided.")
+	@Email(message = "Email is not valid.")
+	private String email;
 
 	private EUserRole role;
 
@@ -52,13 +57,6 @@ public class StudentRegisterDTO {
 		this.lastName = lastName;
 	}
 
-	public String getJmbg() {
-		return jmbg;
-	}
-
-	public void setJmbg(String jmbg) {
-		this.jmbg = jmbg;
-	}
 
 	public EUserRole getRole() {
 		return role;
@@ -83,5 +81,22 @@ public class StudentRegisterDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	
 }

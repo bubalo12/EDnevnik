@@ -32,7 +32,7 @@ public class SubjectEntity {
 	
 	@Column(name = "name", nullable = false)
 	@NotBlank(message = "Name must be provided.")
-	@Size(min = 5, max = 25, message = "Username must be between {min} and {max} characters long.")
+	@Size(min = 5, max = 25, message = "Subject name must be between {min} and {max} characters long.")
 	private String name;
 
 	public Integer getId() {
@@ -51,12 +51,6 @@ public class SubjectEntity {
 		this.name = name;
 	}
 
-	public SubjectEntity(Integer id,
-			@NotBlank(message = "Name must be provided.") @Size(min = 5, max = 25, message = "Username must be between {min} and {max} characters long.") String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
 	
 	public SubjectEntity () {
 		super();

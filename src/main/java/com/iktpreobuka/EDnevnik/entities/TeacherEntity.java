@@ -45,6 +45,11 @@ public class TeacherEntity{
 	@Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters long.")
 	private String password;
 
+	@JsonIgnore
+	@NotBlank(message = "Confirm Password must be provided.")
+	@Size(min = 5, max = 20, message = "Confirm Password must be between {min} and {max} characters long.")
+    private String confirmPassword;
+
 	@Column(nullable = false)
 	@NotBlank(message = "First name must be provided.")
 	@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
@@ -114,9 +119,25 @@ public class TeacherEntity{
 	}
 	
 
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	public EUserRole getRole() {
+		return role;
+	}
+
+	public void setRole(EUserRole role) {
+		this.role = role;
+	}
+
 	public TeacherEntity () {
 		super();
 	}
+	
 	
 	
 

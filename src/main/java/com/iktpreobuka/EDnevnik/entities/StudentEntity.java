@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -38,6 +39,11 @@ public class StudentEntity {
 	@Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters long.")
 	private String password;
 	
+	@JsonIgnore
+	@NotBlank(message = "Confirm Password must be provided.")
+	@Size(min = 5, max = 20, message = "Confirm Password must be between {min} and {max} characters long.")
+    private String confirmPassword;
+	
 	@Column(nullable = false)
 	@NotBlank(message = "First name must be provided.")
 	@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
@@ -48,10 +54,10 @@ public class StudentEntity {
 	@Size(min=2, max=30, message = "First name must be between {min} and {max} characters long.")
 	private String lastName;
 	
-	@Column(nullable = false, unique = true)
-	@NotNull(message = "JMBG must be provided.")
-	@Pattern(regexp = "^\\d{13}$", message = "JMBG must contains 13 characters.")
-	private String jmbg;
+	@Column
+	@NotNull(message = "Email must be provided.")
+	@Email(message = "Email is not valid.")
+	private String email;
 	
 	private EUserRole role;
 	
@@ -83,16 +89,34 @@ public class StudentEntity {
 		this.lastName = lastName;
 	}
 
-	public String getJmbg() {
-		return jmbg;
-	}
-
-	public void setJmbg(String jmbg) {
-		this.jmbg = jmbg;
-	}
+	
 
 	
 	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public EUserRole getRole() {
+		return role;
+	}
+
+	public void setRole(EUserRole role) {
+		this.role = role;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getUsername() {
 		return username;
 	}
