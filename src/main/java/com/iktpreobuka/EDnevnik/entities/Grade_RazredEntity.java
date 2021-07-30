@@ -59,9 +59,6 @@ public class Grade_RazredEntity {
 		this.classNo = classNo;
 	}
 
-	
-
-
 	public Integer getDepartmentNo() {
 		return departmentNo;
 	}

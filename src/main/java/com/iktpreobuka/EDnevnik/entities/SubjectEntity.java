@@ -1,5 +1,10 @@
 package com.iktpreobuka.EDnevnik.entities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,11 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -30,10 +38,20 @@ public class SubjectEntity {
 	@JoinColumn(name = "teacherEntity")
 	private TeacherEntity teacherEntity;
 	
+	@JsonBackReference
+	@OneToMany(mappedBy = "subjectEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<Grade_OcenaEntity> ocene = new ArrayList<>();
+	
+	@JsonManagedReference
+	@ManyToMany(mappedBy = "predmeti")
+    private Set<TeacherEntity> teachers = new HashSet<>();
+	
 	@Column(name = "name", nullable = false)
 	@NotBlank(message = "Name must be provided.")
 	@Size(min = 5, max = 25, message = "Subject name must be between {min} and {max} characters long.")
 	private String name;
+	
+	
 
 	public Integer getId() {
 		return id;
@@ -56,4 +74,5 @@ public class SubjectEntity {
 		super();
 	}
 
+	
 }

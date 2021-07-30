@@ -57,10 +57,10 @@ public class AdminEntity {
 	private EUserRole role;
 	
 	//@JsonManagedReference
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	/*@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "userEntity")
-	private UserEntity userEntity;
+	private UserEntity userEntity;*/
 	
 	
 

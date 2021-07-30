@@ -38,7 +38,7 @@ public class UserEntity {
 	private String password;
 	
 	private EUserRole role;
-	
+	/*
 	@JsonBackReference
 	@OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
 	protected List<StudentEntity> students = new ArrayList<>();
@@ -54,7 +54,7 @@ public class UserEntity {
 	@JsonBackReference
 	@OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
 	protected List<AdminEntity> admins = new ArrayList<>();
-
+*/
 	public Integer getId() {
 		return id;
 	}

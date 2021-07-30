@@ -17,17 +17,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.EDnevnik.entities.Grade_OcenaEntity;
+import com.iktpreobuka.EDnevnik.entities.ParentEntity;
+import com.iktpreobuka.EDnevnik.entities.StudentEntity;
 import com.iktpreobuka.EDnevnik.entities.SubjectEntity;
 import com.iktpreobuka.EDnevnik.entities.dto.Grade_OcenaRegisterDTO;
 import com.iktpreobuka.EDnevnik.entities.dto.SubjectRegisterDTO;
 import com.iktpreobuka.EDnevnik.repositories.Grade_OcenaRepository;
+import com.iktpreobuka.EDnevnik.repositories.StudentRepository;
+import com.iktpreobuka.EDnevnik.repositories.SubjectRepository;
 
-@RequestMapping("/ocene/")
+@RequestMapping("/ocene")
 @RestController
 public class Grade_OcenaController {
 	
 	@Autowired
 	Grade_OcenaRepository ocenaRepository;
+	
+	@Autowired
+	StudentRepository studentRepository;
+	
+	@Autowired
+	SubjectRepository subjectRepository;
 	
 	@PostMapping("/")
 	public ResponseEntity<?> createNewOcena(@DateTimeFormat(iso = ISO.DATE) @RequestBody Grade_OcenaRegisterDTO ocenaDTO) {
@@ -73,6 +83,45 @@ public class Grade_OcenaController {
 		}
 		return null;
 	}
+	
+	@PutMapping("/{gradeID}/{studentID}/{subjectID}")
+	public ResponseEntity<?> addGradeToStudentInSubject(@PathVariable Integer gradeID, @PathVariable Integer studentID, @PathVariable Integer subjectID) {
+		
+		Grade_OcenaEntity ocena = ocenaRepository.findById(gradeID).get();
+		StudentEntity student = studentRepository.findById(studentID).get();
+		SubjectEntity subject = subjectRepository.findById(subjectID).get();
+		
+		ocena.setSubjectEntity(subject);
+		ocena.setStudentEntity(student);
+		ocenaRepository.save(ocena);
+		
+		
+		
+
+		return new ResponseEntity<Grade_OcenaEntity>(ocena, HttpStatus.OK);
+	}
+	
+	@PutMapping("/{gradeID}/{studentID}")
+	public ResponseEntity<?> addGradeToStudent(@PathVariable Integer gradeID, @PathVariable Integer studentID) {
+		
+		Grade_OcenaEntity ocena = ocenaRepository.findById(gradeID).get();
+		StudentEntity student = studentRepository.findById(studentID).get();
+		
+		ocena.setStudentEntity(student);
+		ocenaRepository.save(ocena);
+
+		return new ResponseEntity<Grade_OcenaEntity>(ocena, HttpStatus.OK);
+	}
+	
+	
+	@GetMapping(path = "/{id}")
+	public Grade_OcenaEntity findGradeById(@PathVariable Integer id) {
+		if (ocenaRepository.existsById(id)) {
+			return ocenaRepository.findById(id).get();
+		}
+		return null;
+	}
+	
 	
 	
 

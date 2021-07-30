@@ -21,24 +21,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.iktpreobuka.EDnevnik.entities.Grade_RazredEntity;
+import com.iktpreobuka.EDnevnik.entities.StudentEntity;
+import com.iktpreobuka.EDnevnik.entities.SubjectEntity;
 import com.iktpreobuka.EDnevnik.entities.TeacherEntity;
 
 import com.iktpreobuka.EDnevnik.entities.dto.TeacherRegisterDTO;
+import com.iktpreobuka.EDnevnik.repositories.SubjectRepository;
 import com.iktpreobuka.EDnevnik.repositories.TeacherRepository;
 import com.iktpreobuka.EDnevnik.utils.TeacherCustomValidator;
-
 
 @RequestMapping("/users/teachers")
 @RestController
 public class TeacherController {
-	
+
 	@Autowired
 	TeacherRepository teacherRepository;
-	
+
 	@Autowired
 	TeacherCustomValidator teacherValidator;
-	
+
+	@Autowired
+	SubjectRepository subjectRepository;
+
 	@InitBinder
 	protected void initBinder(final WebDataBinder binder) {
 		binder.addValidators(teacherValidator);
@@ -46,13 +51,12 @@ public class TeacherController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> createNewTeacher(@Valid @RequestBody TeacherRegisterDTO teacherDTO, BindingResult result) {
-		
+
 		if (result.hasErrors()) {
 			return new ResponseEntity<>(createErrorMessage(result), HttpStatus.BAD_REQUEST);
-			} else {
-				teacherValidator.validate(teacherDTO, result);
-			}
-
+		} else {
+			teacherValidator.validate(teacherDTO, result);
+		}
 
 		TeacherEntity newTeacher = new TeacherEntity();
 		newTeacher.setFirstName(teacherDTO.getFirstName());
@@ -71,7 +75,8 @@ public class TeacherController {
 
 	@GetMapping("/")
 	public ResponseEntity<?> getTeacher() {
-		return new ResponseEntity<List<TeacherEntity>>((List<TeacherEntity>) teacherRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<TeacherEntity>>((List<TeacherEntity>) teacherRepository.findAll(),
+				HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
@@ -105,13 +110,10 @@ public class TeacherController {
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
+
 	private String createErrorMessage(BindingResult result) {
 		return result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(" "));
-		}
+	}
 
+	
 }

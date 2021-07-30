@@ -1,7 +1,9 @@
 package com.iktpreobuka.EDnevnik.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -67,15 +71,30 @@ public class TeacherEntity{
 	
 	private EUserRole role;
 	
-	@JsonManagedReference
+	/*@JsonManagedReference
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "userEntity")
-	private UserEntity userEntity;
+	private UserEntity userEntity;*/
+	
+	@JsonBackReference
+	@OneToMany(mappedBy = "teacherEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<Grade_OcenaEntity> gradeOcenaEntity = new ArrayList<>();
 	
 	@JsonBackReference
 	@OneToMany(mappedBy = "teacherEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
 	protected List<SubjectEntity> subjects = new ArrayList<>();
+	
+	@JsonBackReference
+	@ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "teacherSubject", 
+        joinColumns = { @JoinColumn(name = "teacherId") }, 
+        inverseJoinColumns = { @JoinColumn(name = "subjectId") }
+    )
+    Set<SubjectEntity> predmeti = new HashSet<>();
+	
+	
 
 	public String getFirstName() {
 		return firstName;
@@ -134,9 +153,22 @@ public class TeacherEntity{
 		this.role = role;
 	}
 
+	public Integer getTeacherId() {
+		return teacherId;
+	}
+
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
+	}
+
 	public TeacherEntity () {
 		super();
 	}
+
+
+	
+
+	
 	
 	
 	
