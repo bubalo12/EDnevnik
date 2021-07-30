@@ -6,4 +6,6 @@ import com.iktpreobuka.EDnevnik.entities.UserEntity;
 
 public interface UserRepository extends CrudRepository<UserEntity, Integer> {
 
+	UserEntity findByUsername(String username);
+
 }

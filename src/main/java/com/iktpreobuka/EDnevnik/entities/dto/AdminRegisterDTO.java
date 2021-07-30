@@ -15,11 +15,11 @@ public class AdminRegisterDTO {
 	private String username;
 	
 	@NotBlank(message = "Password must be provided.")
-	@Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters long.")
+	@Size(min = 5, max = 200, message = "Password must be between {min} and {max} characters long.")
     private String password;
 	
 	@NotBlank(message = "Confirm Password must be provided.")
-	@Size(min = 5, max = 20, message = "Confirm Password must be between {min} and {max} characters long.")
+	@Size(min = 5, max = 200, message = "Confirm Password must be between {min} and {max} characters long.")
     private String confirmPassword;
 	
     
@@ -38,18 +38,7 @@ public class AdminRegisterDTO {
 	private EUserRole role;
 	
 
-	public AdminRegisterDTO() {
-		super();
-	}
 	
-	public AdminRegisterDTO (String username, String password, String firstName, String lastName, String email, EUserRole role) {
-		this.username = username;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email= email;
-		this.role = role;
-	}
 
 	public String getFirstName() {
 		return firstName;

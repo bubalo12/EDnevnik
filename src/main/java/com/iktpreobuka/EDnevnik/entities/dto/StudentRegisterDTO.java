@@ -41,6 +41,8 @@ public class StudentRegisterDTO {
 		super();
 	}
 
+	
+
 	public String getFirstName() {
 		return firstName;
 	}

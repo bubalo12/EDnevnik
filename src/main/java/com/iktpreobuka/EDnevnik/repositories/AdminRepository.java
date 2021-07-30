@@ -7,6 +7,10 @@ import com.iktpreobuka.EDnevnik.entities.dto.AdminRegisterDTO;
 
 public interface AdminRepository extends CrudRepository<AdminEntity, Integer> {
 
+	AdminEntity findByUsername(String username);
+
+
+
 
 
 }

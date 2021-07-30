@@ -1,5 +1,6 @@
 package com.iktpreobuka.EDnevnik.controllers;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+/*import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;*/
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
@@ -24,9 +27,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.EDnevnik.entities.AdminEntity;
+import com.iktpreobuka.EDnevnik.entities.UserEntity;
 import com.iktpreobuka.EDnevnik.entities.dto.AdminRegisterDTO;
+import com.iktpreobuka.EDnevnik.entities.dto.UserTokenDTO;
 import com.iktpreobuka.EDnevnik.repositories.AdminRepository;
 import com.iktpreobuka.EDnevnik.utils.AdminCustomValidator;
+//import com.iktpreobuka.EDnevnik.utils.Encryption;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 
 
@@ -107,6 +116,36 @@ public class AdminController {
 		}
 		return null;
 	}
+	/*
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+		AdminEntity admin = adminRepository.findByUsername(username);
+		if (admin != null && Encryption.validatePassword(password, admin.getPassword())) {
+			String token = getJWTToken(admin);
+			AdminRegisterDTO adminDTO = new AdminRegisterDTO(admin.getUsername(), token);
+			
+			return new ResponseEntity<>(adminDTO, HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Wrong username/password", HttpStatus.UNAUTHORIZED);
+	}
+
+	private String getJWTToken(AdminEntity admin) {
+		String secretKey = "mySecretKey";
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+		String token = Jwts.builder().setId("softtoJWT").setSubject(admin.getUsername())
+				.claim("authorities",
+						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
+		return "Bearer " + token;
+	}
+
+	
+	*/
+	
+	
+	
 	
 	private String createErrorMessage(BindingResult result) {
 		return result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(" "));

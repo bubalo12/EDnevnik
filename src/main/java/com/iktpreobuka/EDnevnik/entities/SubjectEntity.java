@@ -74,5 +74,13 @@ public class SubjectEntity {
 		super();
 	}
 
+	public TeacherEntity getTeacherEntity() {
+		return teacherEntity;
+	}
+
+	public void setTeacherEntity(TeacherEntity teacherEntity) {
+		this.teacherEntity = teacherEntity;
+	}
+
 	
 }

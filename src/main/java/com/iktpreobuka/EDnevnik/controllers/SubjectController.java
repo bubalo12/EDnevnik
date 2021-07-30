@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iktpreobuka.EDnevnik.entities.ParentEntity;
 import com.iktpreobuka.EDnevnik.entities.StudentEntity;
 import com.iktpreobuka.EDnevnik.entities.SubjectEntity;
+import com.iktpreobuka.EDnevnik.entities.TeacherEntity;
 import com.iktpreobuka.EDnevnik.entities.dto.StudentRegisterDTO;
 import com.iktpreobuka.EDnevnik.entities.dto.SubjectRegisterDTO;
 import com.iktpreobuka.EDnevnik.repositories.SubjectRepository;
+import com.iktpreobuka.EDnevnik.repositories.TeacherRepository;
 
 @RequestMapping ("/subjects")
 @RestController
@@ -29,6 +32,9 @@ public class SubjectController {
 	
 	@Autowired
 	SubjectRepository subjectRepository;
+	
+	@Autowired
+	TeacherRepository teacherRepository;
 	
 	@PostMapping("/")
 	public ResponseEntity<?> createNewSubject( @RequestBody SubjectRegisterDTO subjectDTO) {
@@ -71,5 +77,17 @@ public class SubjectController {
 		}
 		return null;
 	}
+	
+	@PutMapping("/toTeacher/{subjectID}/{teacherID}")
+	public ResponseEntity<?> addSubjectToTeacher(@PathVariable Integer subjectID, @PathVariable Integer teacherID) {
+		
+		SubjectEntity subject = subjectRepository.findById(subjectID).get();
+		TeacherEntity teacher = teacherRepository.findById(teacherID).get();
+		subject.setTeacherEntity(teacher);
+		subjectRepository.save(subject);
+
+		return new ResponseEntity<SubjectEntity>(subject, HttpStatus.OK);
+	}
+	
 	
 }

@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +19,8 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "Users")
@@ -37,7 +41,12 @@ public class UserEntity {
 	@Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters long.")
 	private String password;
 	
-	private EUserRole role;
+	//private EUserRole role;
+	@JsonManagedReference
+	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+	@JoinColumn(name = "role")
+	private RoleEntity role;
 	/*
 	@JsonBackReference
 	@OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
@@ -79,24 +88,14 @@ public class UserEntity {
 		this.password = password;
 	}
 
-	public EUserRole getRole() {
+	public RoleEntity getRole() {
 		return role;
 	}
 
-	public void setRole(EUserRole role) {
-		this.role = role;
+	public void setRole(RoleEntity role) {
+		this.role= role;
 	}
 
-	public UserEntity(Integer id,
-			@NotBlank(message = "Username must be provided.") @Size(min = 5, max = 20, message = "Username must be between {min} and {max} characters long.") String username,
-			@NotBlank(message = "Password must be provided.") @Size(min = 5, max = 100, message = "Password must be between {min} and {max} characters long.") String password,
-			EUserRole role) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.role = role;
-	}
 	
 	public UserEntity() {
 		super();

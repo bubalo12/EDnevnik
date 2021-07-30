@@ -1,5 +1,6 @@
 package com.iktpreobuka.EDnevnik.controllers;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+/*import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;*/
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
@@ -27,12 +30,18 @@ import com.iktpreobuka.EDnevnik.entities.AdminEntity;
 import com.iktpreobuka.EDnevnik.entities.Grade_RazredEntity;
 import com.iktpreobuka.EDnevnik.entities.ParentEntity;
 import com.iktpreobuka.EDnevnik.entities.StudentEntity;
+import com.iktpreobuka.EDnevnik.entities.UserEntity;
 import com.iktpreobuka.EDnevnik.entities.dto.AdminRegisterDTO;
 import com.iktpreobuka.EDnevnik.entities.dto.StudentRegisterDTO;
+import com.iktpreobuka.EDnevnik.entities.dto.UserTokenDTO;
 import com.iktpreobuka.EDnevnik.repositories.Grade_RazredRepository;
 import com.iktpreobuka.EDnevnik.repositories.ParentRepository;
 import com.iktpreobuka.EDnevnik.repositories.StudentRepository;
+//import com.iktpreobuka.EDnevnik.utils.Encryption;
 import com.iktpreobuka.EDnevnik.utils.StudentCustomValidator;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @RequestMapping("/users/students")
 @RestController
@@ -143,4 +152,35 @@ public class StudentController {
 	private String createErrorMessage(BindingResult result) {
 		return result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(" "));
 	}
+	/*
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+		StudentEntity student = studentRepository.findByUsername(username);
+		if (student != null && Encryption.validatePassword(password, student.getPassword())) {
+			String token = getJWTToken(student);
+			StudentRegisterDTO studentDTO = new StudentRegisterDTO(student.getUsername(), token);
+			return new ResponseEntity<>(studentDTO, HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Wrong username/password", HttpStatus.UNAUTHORIZED);
+	}
+
+	private String getJWTToken(StudentEntity student) {
+		String secretKey = "mySecretKey";
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+		String token = Jwts.builder().setId("softtoJWT").setSubject(student.getUsername())
+				.claim("authorities",
+						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
+		return "Bearer " + token;
+	}
+	
+	*/
+	
+	
+	
+	
+	
+	
 }

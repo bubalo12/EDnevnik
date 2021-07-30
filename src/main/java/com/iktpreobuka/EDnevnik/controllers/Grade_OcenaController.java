@@ -16,15 +16,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iktpreobuka.EDnevnik.entities.AdminEntity;
 import com.iktpreobuka.EDnevnik.entities.Grade_OcenaEntity;
 import com.iktpreobuka.EDnevnik.entities.ParentEntity;
 import com.iktpreobuka.EDnevnik.entities.StudentEntity;
 import com.iktpreobuka.EDnevnik.entities.SubjectEntity;
+import com.iktpreobuka.EDnevnik.entities.TeacherEntity;
 import com.iktpreobuka.EDnevnik.entities.dto.Grade_OcenaRegisterDTO;
 import com.iktpreobuka.EDnevnik.entities.dto.SubjectRegisterDTO;
 import com.iktpreobuka.EDnevnik.repositories.Grade_OcenaRepository;
 import com.iktpreobuka.EDnevnik.repositories.StudentRepository;
 import com.iktpreobuka.EDnevnik.repositories.SubjectRepository;
+import com.iktpreobuka.EDnevnik.repositories.TeacherRepository;
 
 @RequestMapping("/ocene")
 @RestController
@@ -38,6 +41,9 @@ public class Grade_OcenaController {
 	
 	@Autowired
 	SubjectRepository subjectRepository;
+	
+	@Autowired
+	TeacherRepository teacherRepository;
 	
 	@PostMapping("/")
 	public ResponseEntity<?> createNewOcena(@DateTimeFormat(iso = ISO.DATE) @RequestBody Grade_OcenaRegisterDTO ocenaDTO) {
@@ -113,6 +119,20 @@ public class Grade_OcenaController {
 		return new ResponseEntity<Grade_OcenaEntity>(ocena, HttpStatus.OK);
 	}
 	
+	@PutMapping("/teacher/{gradeID}/{teacherID}")
+	public ResponseEntity<?> addGradeToTeacher(@PathVariable Integer gradeID, @PathVariable Integer teacherID) {
+		
+		Grade_OcenaEntity ocena = ocenaRepository.findById(gradeID).get();
+		TeacherEntity teacher = teacherRepository.findById(teacherID).get();
+		
+		ocena.setTeacherEntity(teacher);
+		ocenaRepository.save(ocena);
+
+		return new ResponseEntity<Grade_OcenaEntity>(ocena, HttpStatus.OK);
+	}
+	
+	
+	
 	
 	@GetMapping(path = "/{id}")
 	public Grade_OcenaEntity findGradeById(@PathVariable Integer id) {
@@ -122,7 +142,36 @@ public class Grade_OcenaController {
 		return null;
 	}
 	
+
+	@GetMapping(path = "/findByStudentId/{StudentId}")
+	public Grade_OcenaEntity findGradeByStudentId(@PathVariable Integer StudentId) {
+		if(studentRepository.existsById(StudentId)) {
+			List<Grade_OcenaEntity> ocene=ocenaRepository.findAllByStudentEntityStudentId(StudentId);
+		}
+		//if (ocenaRepository.existsById(id)) {
+			//return ocenaRepository.findById(id).get();
+		//}
+		
+		return null;
+	}
 	
+	
+	@PostMapping("/student/{studentID}/{subjectID}")
+	public ResponseEntity<?> AddGradeToStudentandSubject(@DateTimeFormat(iso = ISO.DATE) @RequestBody Grade_OcenaRegisterDTO ocenaDTO, @PathVariable Integer studentID, 
+			@PathVariable Integer subjectID) {
+		if (studentRepository.existsById(studentID) && subjectRepository.existsById(subjectID)) {
+
+			Grade_OcenaEntity ocena = new Grade_OcenaEntity();
+			
+			ocena.setGrade(ocenaDTO.getGrade());
+			ocena.setDate(ocenaDTO.getDate());						//Ako nista drugo, barem proveravamo da li taj ucenik pohadja taj predmet
+			
+			ocenaRepository.save(ocena);
+
+			return new ResponseEntity<Grade_OcenaEntity>(ocena, HttpStatus.OK);
+		}
+		return null;
+	}
 	
 
 }

@@ -36,7 +36,7 @@ public class AdminEntity {
 	@JsonIgnore
 	@Column(name = "password", nullable = false)
 	@NotBlank(message = "Password must be provided.")
-	@Size(min = 5, max = 20, message = "Password must be between {min} and {max} characters long.")
+	@Size(min = 5, max = 200, message = "Password must be between {min} and {max} characters long.")
 	private String password;
 	
 	@Column(nullable = false)
