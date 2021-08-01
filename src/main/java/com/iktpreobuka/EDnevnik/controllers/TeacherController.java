@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iktpreobuka.EDnevnik.entities.EUserRole;
 import com.iktpreobuka.EDnevnik.entities.Grade_RazredEntity;
 import com.iktpreobuka.EDnevnik.entities.StudentEntity;
 import com.iktpreobuka.EDnevnik.entities.SubjectEntity;
@@ -65,7 +67,7 @@ public class TeacherController {
 		newTeacher.setPassword(teacherDTO.getPassword());
 		newTeacher.setConfirmPassword(teacherDTO.getConfirmPassword());
 		newTeacher.setEmail(teacherDTO.getEmail());
-		newTeacher.setRole(teacherDTO.getRole());
+		newTeacher.setRole(EUserRole.TEACHER);
 
 		teacherRepository.save(newTeacher);
 
@@ -113,6 +115,20 @@ public class TeacherController {
 
 	private String createErrorMessage(BindingResult result) {
 		return result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(" "));
+	}
+	
+	@PutMapping ("/addTeacherToSubject")
+	public ResponseEntity<?> addTeacherToSubject (@RequestParam Integer teacherID, @RequestParam Integer subjectID) {
+		
+		SubjectEntity subject = subjectRepository.findById(subjectID).get();
+		TeacherEntity teacher = teacherRepository.findById(teacherID).get();
+		
+		subject.getTeachers().add(teacher);
+		teacher.getPredmeti().add(subject);
+		teacherRepository.save(teacher);
+		subjectRepository.save(subject);
+		return new ResponseEntity<>(teacher,HttpStatus.OK);
+		
 	}
 	
 	

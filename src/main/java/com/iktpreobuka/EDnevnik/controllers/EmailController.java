@@ -1,5 +1,7 @@
 package com.iktpreobuka.EDnevnik.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +15,13 @@ import com.iktpreobuka.EDnevnik.services.EmailService;
 @RequestMapping("/email")
 public class EmailController {
 
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private EmailService emailServices;
 
-	private static String PATH_TO_ATTACHMENT = "G://slike//1.jpg";
+	private static String PATH_TO_ATTACHMENT = "H:\\BACKEND\\STS\\EDnevnik\\logs\\1.jpg";
 
 	@RequestMapping(method = RequestMethod.POST, path = "/simpleEmail")
 	public String setSimpleEmail(@RequestBody EmailObject emailObject) {

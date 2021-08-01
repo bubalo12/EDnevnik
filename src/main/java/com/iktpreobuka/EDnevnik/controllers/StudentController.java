@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iktpreobuka.EDnevnik.entities.AdminEntity;
+import com.iktpreobuka.EDnevnik.entities.EUserRole;
 import com.iktpreobuka.EDnevnik.entities.Grade_RazredEntity;
 import com.iktpreobuka.EDnevnik.entities.ParentEntity;
 import com.iktpreobuka.EDnevnik.entities.StudentEntity;
@@ -80,7 +81,7 @@ public class StudentController {
 		newStudent.setPassword(studentDTO.getPassword());
 		newStudent.setConfirmPassword(studentDTO.getConfirmPassword());
 		newStudent.setEmail(studentDTO.getEmail());
-		newStudent.setRole(studentDTO.getRole());
+		newStudent.setRole(EUserRole.STUDENT);
 
 		studentRepository.save(newStudent);
 

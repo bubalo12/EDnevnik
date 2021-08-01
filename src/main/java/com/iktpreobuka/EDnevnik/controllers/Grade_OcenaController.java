@@ -142,19 +142,18 @@ public class Grade_OcenaController {
 		return null;
 	}
 	
-
+/*
 	@GetMapping(path = "/findByStudentId/{StudentId}")
 	public Grade_OcenaEntity findGradeByStudentId(@PathVariable Integer StudentId) {
 		if(studentRepository.existsById(StudentId)) {
-			List<Grade_OcenaEntity> ocene=ocenaRepository.findAllByStudentEntityStudentId(StudentId);
+			Grade_OcenaEntity ocena= ocenaRepository.findAllByStudentEntityStudentId(StudentId);
+			return ocena;
 		}
-		//if (ocenaRepository.existsById(id)) {
-			//return ocenaRepository.findById(id).get();
-		//}
+		
 		
 		return null;
 	}
-	
+	*/
 	
 	@PostMapping("/student/{studentID}/{subjectID}")
 	public ResponseEntity<?> AddGradeToStudentandSubject(@DateTimeFormat(iso = ISO.DATE) @RequestBody Grade_OcenaRegisterDTO ocenaDTO, @PathVariable Integer studentID, 

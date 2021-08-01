@@ -1,7 +1,9 @@
 package com.iktpreobuka.EDnevnik.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
@@ -42,7 +47,21 @@ public class Grade_RazredEntity {
 	@Min(value = 1, message = "Department number must be greater than {value}.")
 	@Max(value = 3, message = "Department number must be less than {value}.")
 	private Integer departmentNo;
+	
+	@JsonBackReference
+	@ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "razredSubject", 
+        joinColumns = { @JoinColumn(name = "razredId") }, 
+        inverseJoinColumns = { @JoinColumn(name = "subjectId") }
+    )
+    Set<SubjectEntity> predmeti = new HashSet<>();
 
+	
+	@JsonBackReference
+	@OneToMany(mappedBy = "razredEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<Grade_RazredEntity> razredEntity = new ArrayList<>();
+	
 	public Integer getId() {
 		return id;
 	}
@@ -69,6 +88,14 @@ public class Grade_RazredEntity {
 
 	public Grade_RazredEntity () {
 		super();
+	}
+
+	public Set<SubjectEntity> getPredmeti() {
+		return predmeti;
+	}
+
+	public void setPredmeti(Set<SubjectEntity> predmeti) {
+		this.predmeti = predmeti;
 	}
 	
 }

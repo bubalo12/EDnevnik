@@ -46,6 +46,31 @@ public class SubjectEntity {
 	@ManyToMany(mappedBy = "predmeti")
     private Set<TeacherEntity> teachers = new HashSet<>();
 	
+	@JsonManagedReference
+	@ManyToMany(mappedBy = "predmeti")
+    private Set<Grade_RazredEntity> razred = new HashSet<>();
+	
+    @JsonBackReference
+	@OneToMany(mappedBy = "subjectEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<SubjectEntity> subjectEntity = new ArrayList<>();
+	
+	
+	public List<Grade_OcenaEntity> getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(List<Grade_OcenaEntity> ocene) {
+		this.ocene = ocene;
+	}
+
+	public Set<TeacherEntity> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(Set<TeacherEntity> teachers) {
+		this.teachers = teachers;
+	}
+
 	@Column(name = "name", nullable = false)
 	@NotBlank(message = "Name must be provided.")
 	@Size(min = 5, max = 25, message = "Subject name must be between {min} and {max} characters long.")
@@ -80,6 +105,14 @@ public class SubjectEntity {
 
 	public void setTeacherEntity(TeacherEntity teacherEntity) {
 		this.teacherEntity = teacherEntity;
+	}
+
+	public Set<Grade_RazredEntity> getRazred() {
+		return razred;
+	}
+
+	public void setRazred(Set<Grade_RazredEntity> razred) {
+		this.razred = razred;
 	}
 
 	

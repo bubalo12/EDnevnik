@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iktpreobuka.EDnevnik.entities.Grade_RazredEntity;
 import com.iktpreobuka.EDnevnik.entities.ParentEntity;
 import com.iktpreobuka.EDnevnik.entities.StudentEntity;
 import com.iktpreobuka.EDnevnik.entities.SubjectEntity;
 import com.iktpreobuka.EDnevnik.entities.TeacherEntity;
 import com.iktpreobuka.EDnevnik.entities.dto.StudentRegisterDTO;
 import com.iktpreobuka.EDnevnik.entities.dto.SubjectRegisterDTO;
+import com.iktpreobuka.EDnevnik.repositories.Grade_RazredRepository;
 import com.iktpreobuka.EDnevnik.repositories.SubjectRepository;
 import com.iktpreobuka.EDnevnik.repositories.TeacherRepository;
 
@@ -35,6 +38,9 @@ public class SubjectController {
 	
 	@Autowired
 	TeacherRepository teacherRepository;
+	
+	@Autowired
+	Grade_RazredRepository razredRepository;
 	
 	@PostMapping("/")
 	public ResponseEntity<?> createNewSubject( @RequestBody SubjectRegisterDTO subjectDTO) {
@@ -89,5 +95,17 @@ public class SubjectController {
 		return new ResponseEntity<SubjectEntity>(subject, HttpStatus.OK);
 	}
 	
-	
+	@PutMapping ("/addSubjectToClass")
+	public ResponseEntity<?> addSubjectToClass (@RequestParam Integer classID, @RequestParam Integer subjectID) {
+		
+		SubjectEntity subject = subjectRepository.findById(subjectID).get();
+		Grade_RazredEntity razred = razredRepository.findById(classID).get();
+		
+		subject.getRazred().add(razred);
+		razred.getPredmeti().add(subject);
+		razredRepository.save(razred);
+		subjectRepository.save(subject);
+		return new ResponseEntity<>(subject,HttpStatus.OK);
+		
+	}
 }

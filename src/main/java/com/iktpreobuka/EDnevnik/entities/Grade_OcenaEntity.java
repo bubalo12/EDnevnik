@@ -65,7 +65,9 @@ public class Grade_OcenaEntity {
 	@JoinColumn(name = "teacherEntity")
 	private TeacherEntity teacherEntity;
 	
-	
+	@JsonBackReference
+	@OneToMany(mappedBy = "ocenaEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<Grade_OcenaEntity> ocenaEntity = new ArrayList<>();
 	
 	
 

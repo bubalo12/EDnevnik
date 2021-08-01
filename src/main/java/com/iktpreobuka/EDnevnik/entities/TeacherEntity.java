@@ -94,7 +94,35 @@ public class TeacherEntity{
     )
     Set<SubjectEntity> predmeti = new HashSet<>();
 	
+	@JsonBackReference
+	@OneToMany(mappedBy = "teacherEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<ReportEntity> reportEntity = new ArrayList<>();
 	
+	
+
+	public List<Grade_OcenaEntity> getGradeOcenaEntity() {
+		return gradeOcenaEntity;
+	}
+
+	public void setGradeOcenaEntity(List<Grade_OcenaEntity> gradeOcenaEntity) {
+		this.gradeOcenaEntity = gradeOcenaEntity;
+	}
+
+	public List<SubjectEntity> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<SubjectEntity> subjects) {
+		this.subjects = subjects;
+	}
+
+	public Set<SubjectEntity> getPredmeti() {
+		return predmeti;
+	}
+
+	public void setPredmeti(Set<SubjectEntity> predmeti) {
+		this.predmeti = predmeti;
+	}
 
 	public String getFirstName() {
 		return firstName;

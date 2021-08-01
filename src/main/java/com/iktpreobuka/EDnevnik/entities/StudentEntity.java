@@ -74,6 +74,10 @@ public class StudentEntity {
 	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "userEntity")
 	private UserEntity userEntity;*/
+	
+	@JsonBackReference
+	@OneToMany(mappedBy = "studentEntity", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	protected List<StudentEntity> studentEntity = new ArrayList<>();
 
 	@JsonManagedReference
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })

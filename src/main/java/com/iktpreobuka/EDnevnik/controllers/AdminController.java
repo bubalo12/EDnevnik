@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,9 @@ import com.iktpreobuka.EDnevnik.entities.AdminEntity;
 import com.iktpreobuka.EDnevnik.entities.UserEntity;
 import com.iktpreobuka.EDnevnik.entities.dto.AdminRegisterDTO;
 import com.iktpreobuka.EDnevnik.entities.dto.UserTokenDTO;
+import com.iktpreobuka.EDnevnik.models.EmailObject;
 import com.iktpreobuka.EDnevnik.repositories.AdminRepository;
+import com.iktpreobuka.EDnevnik.services.EmailService;
 import com.iktpreobuka.EDnevnik.utils.AdminCustomValidator;
 //import com.iktpreobuka.EDnevnik.utils.Encryption;
 
@@ -45,6 +49,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RestController
 public class AdminController {
 
+	
+	private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
+	
+	
 	@Autowired
 	AdminRepository adminRepository;
 
@@ -78,6 +86,7 @@ public class AdminController {
 
 		return new ResponseEntity<AdminEntity>(newAdmin, HttpStatus.CREATED);
 
+		
 	}
 
 	@GetMapping("/")
@@ -143,14 +152,22 @@ public class AdminController {
 
 	
 	*/
+	@Autowired
+	private EmailService emailServices;
 	
-	
-	
+	private static String PATH_TO_ATTACHMENT = "H:\\BACKEND\\STS\\EDnevnik\\log.txt";
 	
 	private String createErrorMessage(BindingResult result) {
 		return result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(" "));
 		}
 		
-
+	@RequestMapping(method = RequestMethod.POST, value = "/emailLogs")
+	public String sendMessageWithAttachment(@RequestBody EmailObject object) throws Exception {
+		if (object == null || object.getTo() == null || object.getText() == null) {
+			return null;
+		}
+		emailServices.sendMessageWithAttachment(object, PATH_TO_ATTACHMENT);
+		return "Your mail has been sent!";
+	}
 
 }

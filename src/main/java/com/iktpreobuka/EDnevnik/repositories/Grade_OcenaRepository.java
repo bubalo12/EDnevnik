@@ -13,7 +13,9 @@ public interface Grade_OcenaRepository extends CrudRepository<Grade_OcenaEntity,
 
 	public Grade_OcenaEntity findById(int id);
 
-	public List<Grade_OcenaEntity> findAllByStudentEntityStudentId(Integer studentId);
+	//public Grade_OcenaEntity findAllByStudentEntityStudentId(Integer studentId);
+
+	//public Grade_OcenaEntity findByStudentId(Integer studentId);
 	
 	
 	
